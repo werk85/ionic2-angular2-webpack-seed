@@ -1,0 +1,84 @@
+{
+  "name": "ionic2-angular2-webpack-seed",
+  "version": "0.9.0",
+  "description": "Starter for ionic2 webpack projects",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server -d --hot --progress",
+    "build": "webpack",
+    "build:production": "NODE_ENV=production webpack",
+    "android": "npm run build && cordova run android",
+    "iosEmulator": "npm run build && cordova run ios",
+    "ios": "npm run build && cordova run ios --device",
+    "postinstall": "typings install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/werk85/ionic2-angular2-webpack-seed.git"
+  },
+  "keywords": [
+    "ionic",
+    "ionic2",
+    "webpack",
+    "angular2",
+    "es6",
+    "es2015",
+    "typescript"
+  ],
+  "author": "Swen Gorschewski <swen.gorschewski@gmail.com> (http://www.werk85.de/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/werk85/ionic2-angular2-webpack-seed/issues"
+  },
+  "homepage": "https://github.com/werk85/ionic2-angular2-webpack-seed#readme",
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.3",
+    "@angular/compiler": "2.0.0-rc.3",
+    "@angular/core": "2.0.0-rc.3",
+    "@angular/http": "2.0.0-rc.3",
+    "@angular/platform-browser": "2.0.0-rc.3",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.3",
+    "@angular/router": "2.0.0-rc.2",
+    "core-js": "^2.4.0",
+    "rxjs": "5.0.0-beta.6",
+    "zone.js": "~0.6.17",
+    "ionic-angular": "2.0.0-beta.10",
+    "ionic-native": "1.1.1",
+    "ionicons": "3.0.0"
+  },
+  "devDependencies": {
+    "angular2-template-loader": "^0.4.0",
+    "autoprefixer-loader": "^3.2.0",
+    "awesome-typescript-loader": "^0.17.0-rc.5",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.15.0",
+    "json-loader": "^0.5.4",
+    "node-sass": "^3.4.2",
+    "postcss-loader": "^0.10.1",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "ts-helpers": "^1.1.1",
+    "tslint": "^3.15.1",
+    "typescript": "^1.8.10",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1",
+    "webpack-bundle-size-analyzer": "^2.0.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    {
+      "locator": "https://github.com/VersoSolutions/CordovaClipboard",
+      "id": "com.verso.cordova.clipboard"
+    }
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android",
+    "browser"
+  ]
+}

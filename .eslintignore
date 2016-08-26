@@ -1,0 +1,6 @@
+node_modules/
+coverage/
+platforms/
+plugins/
+www/
+vendor/
