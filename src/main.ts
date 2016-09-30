@@ -1,5 +1,5 @@
-import { ionicBootstrap } from 'ionic-angular';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppComponent } from './app';
+import { AppModule } from './app/AppModule';
 
-ionicBootstrap(AppComponent);
+platformBrowserDynamic().bootstrapModule(AppModule);

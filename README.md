@@ -1,21 +1,22 @@
-## Installation
+# ionic2 webpack2 starter
+starter project for ionic2 with webpack2
+
+## install
+
 ```
 npm install
 ```
 
-# development
+## use
+
 ```
-npm start
+npm start           # starts webpack-dev-server in dev mode
+npm run start:prod  #starts webpack-dev-server in production mode
 ```
 
-# build (browser)
-```
-npm run build
-npm run build:release
-```
-
-# build (mobile)
-```
-npm run android
-npm run ios
-```
+## TODO
+* ngc compilation
+* split configs
+* babel
+* tree shaking
+* testing frameworks

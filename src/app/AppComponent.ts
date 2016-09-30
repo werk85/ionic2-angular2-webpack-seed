@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-
 import { Platform } from 'ionic-angular';
-import { Splashscreen, StatusBar } from 'ionic-native';
+import { StatusBar } from 'ionic-native';
 
 import { HomeComponent } from './home';
 
+
 @Component({
-  templateUrl: 'AppComponent.html'
+  template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class AppComponent {
-  rootPage: any = HomeComponent;
+  rootPage = HomeComponent;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
       StatusBar.styleDefault();
-      Splashscreen.hide();
     });
   }
-
 }

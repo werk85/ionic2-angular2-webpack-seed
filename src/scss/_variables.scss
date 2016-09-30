@@ -1,32 +1,51 @@
-// http://ionicframework.com/docs/v2/theming/
-
-// Ionic Shared Functions
-// --------------------------------------------------
-// Makes Ionic Sass functions available to your App
-
-// @import 'globals.core';
-
-
-// App Shared Color Variables
-// --------------------------------------------------
-// It's highly recommended to change the default colors
-// to match your app's branding. Ionic uses a Sass map of
-// colors so you can add, rename and remove colors as needed.
-// The "primary" color is the only required color in the map.
-// Both iOS and MD colors can be further customized if colors
-// are different per mode.
-
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
+  primary:    #c64b4b,
+  secondary:  #eae66f,
+
   danger:     #f53d3d,
-  light:      #f4f4f4,
+  light:      #E3E2E2,
   dark:       #222,
+
   favorite:   #69BB7B,
   twitter:    #53ACEB,
   github:     #000000,
   instagram:  #235D8D
 );
+
 // $ionicons: false;
 $font-path: '~ionic-angular/fonts';
 $ionicons-font-path: '~ionicons/dist/fonts';
+
+$text-color:                #222220 !default;
+$text-color-light:          #787878;
+// $paragraph-color:            $text-color !default;
+// $link-color:                 color($colors, primary) !default;
+// $background-color:           #fff !default;
+// $subdued-text-color:         #666 !default;
+
+// $font-family-base:           -apple-system, "Helvetica Neue", "Roboto", sans-serif !default;
+// $font-size-base:             1.4rem !default; // 1.4rem == 14px
+
+// $content-padding:            16px !default;
+// $content-margin:             16px !default;
+
+$primary-text:            #fff;
+$primary-light:           #ED8887;
+
+$toolbar-background:        map-get($colors, primary) !default;
+$toolbar-border-color:      map-get($colors, primary) !default;
+$toolbar-text-color:        $primary-text !default;
+$toolbar-active-color:      $primary-text !default;
+$toolbar-inactive-color:    $primary-text !default;
+
+// $list-text-color:            $text-color !default;
+// $list-background-color:      $background-color !default;
+// $list-border-color:          #c8c7cc !default;
+
+$item-ios-divider-background: #E3E2E2;
+$item-md-divider-background: #E3E2E2;
+$item-wp-divider-background: #E3E2E2;
+
+$toast-ios-background: rgba(91, 192, 222, 0.9);
+$toast-md-background: rgba(91, 192, 222, 0.9);
+$toast-wp-background: rgba(91, 192, 222, 0.9);

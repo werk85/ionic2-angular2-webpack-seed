@@ -1,98 +1,109 @@
 const path = require('path');
+const express = require('express');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const paths = {
-  www: path.join(__dirname, 'www'),
-  src: path.join(__dirname, 'src'),
-  app: path.join(__dirname, 'src/app')
+  src: path.resolve(__dirname, 'src'),
+  scss: path.resolve(__dirname, 'src/scss'),
+  res: path.resolve(__dirname, 'res'),
+  output: path.resolve(__dirname, 'www')
 };
 
-const devtool = isProduction
-  ? '#cheap-eval-source-map'
-  : '#source-map';
+const entry = {
+  polyfills: path.resolve(paths.src, 'polyfills.ts'),
+  vendor: path.resolve(paths.src, 'vendor.ts'),
+  main: path.resolve(paths.src, 'main.ts'),
+  styles: [
+    path.resolve(paths.src, 'scss/ionic/index.scss'),
+    path.resolve(paths.src, 'scss/app/index.scss')
+  ]
+};
 
-const mainEntries = isProduction
-  ? [path.resolve(paths.src, 'main.ts')]
-  : [
-    path.resolve(paths.src, 'main.ts'),
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/dev-server'
-  ];
+const output = {
+  path: paths.output,
+  filename: '[name].js'
+};
+
+const plugins = [
+  new ForkCheckerPlugin(),
+  new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/, __dirname),
+  new webpack.optimize.CommonsChunkPlugin({ name: ['polyfills', 'vendor'].reverse() }),
+  new HtmlWebpackPlugin({ template: path.resolve(paths.src, 'index.html'), chunksSortMode: 'dependency' }),
+  new webpack.LoaderOptionsPlugin({
+    minimize: isProduction,
+    debug: !isProduction,
+    options: {
+      sassLoader: {
+        includePaths: [
+          paths.scss,
+          path.resolve(__dirname, 'node_modules/ionicons/dist/scss')
+        ]
+      },
+      context: '/',
+      output
+    }
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'ENV': JSON.stringify(process.env.NODE_ENV),
+      'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }
+  }),
+  new ExtractTextPlugin('styles.css'),
+  new CopyWebpackPlugin([{ from: paths.res, to: paths.output }])
+];
+
+const loaders = [
+  {
+    test: /\.ts$/,
+    loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
+  },
+  { test: /\.html$/, loader: 'html' },
+  {
+    test: /\.scss$/,
+    loader: ExtractTextPlugin.extract({
+      loader: ['css?sourceMap', 'sass?sourceMap']
+    })
+  },
+  {
+    test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[\w\.-]*)?$/,
+    loader: 'file?name=fonts/[name].[hash].[ext]?'
+  }
+];
 
 module.exports = {
-  entry: {
-    polyfills: path.resolve(paths.src, 'polyfills.ts'),
-    vendors: path.resolve(paths.src, 'vendor.ts'),
-    main: mainEntries,
-    style: path.join(paths.src, 'scss', 'index.scss')
-  },
-  output: {
-    path: paths.www,
-    filename: '[name].js'
-  },
-  devtool: devtool,
+  devtool: isProduction ? 'eval' : 'source-map',
+  entry,
+  output,
   resolve: {
-    extensions: ['', '.ts', '.js', '.html', '.scss', '.png'],
-    moduleDirectories: [
-      'node_modules',
-      'node_modules/ionic-angular',
-      'node_modules/ionicons/dist/scss/'
-    ]
+    extensions: ['.ts', '.js', '.json'],
+    modules: [paths.src, 'node_modules']
   },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(paths.src, 'index.html'),
-      inject: 'body'
-    }),
-    new ExtractTextPlugin('styles.[hash].css')
-  ],
-  module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        exclude: /(node_modules)/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
-      },
-      { test: /\.html$/, loader: 'html' },
-      // {
-      //   test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //   loader: 'file?name=fonts/[name].[hash].[ext]?'
-      // },
-      { test: /\.json$/, loader: 'json' },
-
-      // handle css files for global and module scopes
-      {
-        test: /\.css$/,
-        exclude: paths.app,
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
-      },
-      { test: /\.css$/, include: paths.app, loader: 'raw!postcss' },
-
-      // handle scss files for global and module scopes
-      {
-        test: /\.scss$/,
-        exclude: paths.app,
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass')
-      },
-      { test: /\.scss$/, include: paths.app, loader: 'raw!postcss!sass' },
-      {
-        test: [/ionicons\.svg/, /ionicons\.eot/, /ionicons\.ttf/, /ionicons\.woff/, /roboto-bold\.woff/, /roboto-medium\.woff/, /roboto-light\.woff/, /roboto-regular\.woff/, /roboto-bold\.ttf/, /roboto-medium\.ttf/, /roboto-light\.ttf/, /roboto-regular\.ttf/, /noto-sans-bold\.ttf/, /noto-sans-regular\.ttf/],
-        loader: 'file?name=fonts/[name].[ext]'
-      }
-    ]
+  module: { loaders },
+  plugins,
+  devServer: {
+    stats: 'errors-only',
+    inline: true,
+    historyApiFallback: true,
+    setup: function (app) {
+      // Setting up some static routes to use cordova browser platform files
+      app.use(express.static(path.join(__dirname, 'platforms/browser/platform_www')));
+      app.use(express.static(path.join(__dirname, 'res')));
+      app.get('/config.xml', (req, res) => res.sendFile(path.join(__dirname, '/config.xml')));
+    },
+    outputPath: paths.output
   },
-  sassLoader: {
-    includePaths: [
-      'node_modules/ionic-angular',
-      'node_modules/ionicons/dist/scss'
-    ]
+  node: {
+    process: true,
+    module: false,
+    clearImmediate: false,
+    setImmediate: false
   }
 };
+

@@ -1,83 +1,60 @@
 {
-  "name": "ionic2-angular2-webpack-seed",
+  "name": "ionic2-webpack2-starter",
   "version": "0.9.0",
-  "description": "Starter for ionic2 webpack projects",
+  "description": "Starter project for ionic2 applications",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server -d --hot --progress",
-    "build": "webpack",
-    "build:production": "NODE_ENV=production webpack",
-    "android": "npm run build && cordova run android",
-    "iosEmulator": "npm run build && cordova run ios",
-    "ios": "npm run build && cordova run ios --device",
-    "postinstall": "typings install"
+    "start": "webpack-dev-server --progress --inline",
+    "start:prod": "NODE_ENV=production webpack-dev-server --progress",
+    "build": "rimraf www/* && webpack --progress",
+    "build:prod": "rimraf www/* && NODE_ENV=production webpack --progress",
+    "cordova": "cordova run android",
+    "cordova:build": "npm run build && cordova run android",
+    "cordova:build:prod": "npm run build:prod && cordova run android",
+    "postinstall": "mkdir www && cordova platform add browser && cordova plugin add cordova-plugin-statusbar"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/werk85/ionic2-angular2-webpack-seed.git"
-  },
-  "keywords": [
-    "ionic",
-    "ionic2",
-    "webpack",
-    "angular2",
-    "es6",
-    "es2015",
-    "typescript"
-  ],
-  "author": "Swen Gorschewski <swen.gorschewski@gmail.com> (http://www.werk85.de/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/werk85/ionic2-angular2-webpack-seed/issues"
-  },
-  "homepage": "https://github.com/werk85/ionic2-angular2-webpack-seed#readme",
-  "dependencies": {
-    "@angular/common": "2.0.0-rc.4",
-    "@angular/compiler": "2.0.0-rc.4",
-    "@angular/core": "2.0.0-rc.4",
-    "@angular/platform-browser": "2.0.0-rc.4",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
-    "@angular/http": "2.0.0-rc.4",
-    "@angular/forms": "0.2.0",
-    "core-js": "^2.4.0",
-    "rxjs": "5.0.0-beta.6",
-    "zone.js": "~0.6.17",
-    "ionic-angular": "2.0.0-beta.11",
-    "ionic-native": "1.3.10",
-    "ionicons": "3.0.0"
-  },
+  "keywords": [],
+  "author": "Swen Gorschewski <swen.gorschewski@gmail.com>",
+  "license": "ISC",
   "devDependencies": {
+    "@angular/compiler": "^2.0.1",
+    "@types/node": "^6.0.41",
     "angular2-template-loader": "^0.5.0",
-    "awesome-typescript-loader": "^1.1.1",
-    "css-loader": "^0.24.0",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.9.0",
-    "html-loader": "^0.4.3",
-    "html-webpack-plugin": "^2.22.0",
-    "json-loader": "^0.5.4",
-    "node-sass": "^3.8.0",
-    "postcss-loader": "^0.10.1",
-    "raw-loader": "^0.5.1",
-    "sass-loader": "^4.0.0",
+    "awesome-typescript-loader": "^2.2.4",
+    "copy-webpack-plugin": "^3.0.1",
+    "css-loader": "0.25.0",
+    "express": "4.14.0",
+    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "file-loader": "0.9.0",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "2.22.0",
+    "node-sass": "3.10.0",
+    "resolve-url-loader": "1.6.0",
+    "rimraf": "^2.5.4",
+    "sass-loader": "4.0.2",
     "style-loader": "^0.13.1",
-    "ts-helpers": "^1.1.1",
-    "tslint": "^3.15.1",
-    "typescript": "^1.8.10",
-    "typings": "^1.3.2",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.0"
+    "ts-helpers": "1.1.1",
+    "typescript": "2.0.3",
+    "webpack": "2.1.0-beta.25",
+    "webpack-dev-server": "2.1.0-beta.7"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    {
-      "locator": "https://github.com/VersoSolutions/CordovaClipboard",
-      "id": "com.verso.cordova.clipboard"
-    }
-  ],
-  "cordovaPlatforms": [
-    "ios",
-    "android",
-    "browser"
-  ]
+  "dependencies": {
+    "@angular/common": "~2.0.0",
+    "@angular/compiler": "~2.0.0",
+    "@angular/core": "~2.0.0",
+    "@angular/forms": "~2.0.0",
+    "@angular/http": "~2.0.0",
+    "@angular/platform-browser": "~2.0.0",
+    "@angular/platform-browser-dynamic": "~2.0.0",
+    "@ngrx/core": "^1.2.0",
+    "@ngrx/effects": "^2.0.0",
+    "@ngrx/store": "^2.2.1",
+    "@ngrx/store-devtools": "^3.1.0",
+    "core-js": "~2.4.1",
+    "ionic-angular": "~2.0.0-rc.0",
+    "ionic-native": "~2.0.3",
+    "ionicons": "~3.0.0",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "~0.6.25"
+  }
 }
