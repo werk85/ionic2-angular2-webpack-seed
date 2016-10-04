@@ -9,7 +9,7 @@ import { incrementAction } from '../actions';
   templateUrl: './HomeComponent.html'
 })
 export class HomeComponent {
-  counter$: Observable<number>
+  counter$: Observable<number>;
 
   constructor(private store$: Store<any>) {
     this.counter$ = store$.select(getCounter);

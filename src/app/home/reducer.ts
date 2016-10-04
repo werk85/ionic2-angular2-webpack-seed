@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { HomeState } from './interfaces';
 import { INCREMENT } from './actions';
 
-const initialState: HomeState = {
+export const initialState: HomeState = {
   counter: 0
 };
 

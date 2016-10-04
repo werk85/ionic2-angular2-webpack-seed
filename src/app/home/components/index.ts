@@ -1,1 +1,1 @@
-export * from './HomeComponent'
+export * from './HomeComponent';

@@ -11,6 +11,12 @@ const logger = (reducer) => {
   };
 };
 
+export function getReducers(state = {}, action) {
+  return {
+    [HOME_KEY]: (process.env.NODE_ENV === 'production' ? homeReducer : logger(homeReducer))(state[HOME_KEY], action)
+  };
+}
+
 export const reducers = {
   [HOME_KEY]: process.env.NODE_ENV === 'production' ? homeReducer : logger(homeReducer)
-}
+};

@@ -38,7 +38,6 @@
     "no-empty": false,
     "no-eval": true,
     "trailing-comma": true,
-    "no-console": [true, "log"],
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
     "no-unused-variable": true,

@@ -2,11 +2,12 @@ const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
+
+const main = isProduction ? 'main.prod.ts' : 'main.ts';
 
 const paths = {
   src: path.resolve(__dirname, 'src'),
@@ -18,7 +19,7 @@ const paths = {
 const entry = {
   polyfills: path.resolve(paths.src, 'polyfills.ts'),
   vendor: path.resolve(paths.src, 'vendor.ts'),
-  main: path.resolve(paths.src, 'main.ts'),
+  main: path.resolve(paths.src, main),
   styles: [
     path.resolve(paths.src, 'scss/ionic/index.scss'),
     path.resolve(paths.src, 'scss/app/index.scss')
@@ -31,7 +32,7 @@ const output = {
 };
 
 const plugins = [
-  new ForkCheckerPlugin(),
+  //new ForkCheckerPlugin(),
   new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/, __dirname),
   new webpack.optimize.CommonsChunkPlugin({ name: ['polyfills', 'vendor'].reverse() }),
   new HtmlWebpackPlugin({ template: path.resolve(paths.src, 'index.html'), chunksSortMode: 'dependency' }),
@@ -71,6 +72,7 @@ const loaders = [
       loader: ['css?sourceMap', 'sass?sourceMap']
     })
   },
+  { test: /\.json$/, loader: 'json' },
   {
     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)(\?v=[\w\.-]*)?$/,
     loader: 'file?name=fonts/[name].[hash].[ext]?'
@@ -88,7 +90,7 @@ module.exports = {
   module: { loaders },
   plugins,
   devServer: {
-    stats: 'errors-only',
+    //stats: 'errors-only',
     inline: true,
     historyApiFallback: true,
     setup: function (app) {
