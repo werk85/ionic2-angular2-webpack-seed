@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -20,10 +21,8 @@ const entry = {
   polyfills: path.resolve(paths.src, 'polyfills.ts'),
   vendor: path.resolve(paths.src, 'vendor.ts'),
   main: path.resolve(paths.src, main),
-  styles: [
-    path.resolve(paths.src, 'scss/ionic/index.scss'),
-    path.resolve(paths.src, 'scss/app/index.scss')
-  ]
+  ionic: path.resolve(paths.src, 'scss/ionic/index.scss'),
+  app: path.resolve(paths.src, 'scss/app/index.scss')
 };
 
 const output = {
@@ -32,9 +31,9 @@ const output = {
 };
 
 const plugins = [
-  //new ForkCheckerPlugin(),
+  new ForkCheckerPlugin(),
   new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/, __dirname),
-  new webpack.optimize.CommonsChunkPlugin({ name: ['polyfills', 'vendor'].reverse() }),
+  new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'] }),
   new HtmlWebpackPlugin({ template: path.resolve(paths.src, 'index.html'), chunksSortMode: 'dependency' }),
   new webpack.LoaderOptionsPlugin({
     minimize: isProduction,
@@ -56,7 +55,7 @@ const plugins = [
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }
   }),
-  new ExtractTextPlugin('styles.css'),
+  new ExtractTextPlugin('[name][hash].css'),
   new CopyWebpackPlugin([{ from: paths.res, to: paths.output }])
 ];
 
@@ -90,13 +89,17 @@ module.exports = {
   module: { loaders },
   plugins,
   devServer: {
-    //stats: 'errors-only',
-    inline: true,
+    stats: 'minimal',
     historyApiFallback: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000
+    },
+
     setup: function (app) {
       // Setting up some static routes to use cordova browser platform files
+      app.use('/res', express.static(path.join(__dirname, 'res')));
       app.use(express.static(path.join(__dirname, 'platforms/browser/platform_www')));
-      app.use(express.static(path.join(__dirname, 'res')));
       app.get('/config.xml', (req, res) => res.sendFile(path.join(__dirname, '/config.xml')));
     },
     outputPath: paths.output

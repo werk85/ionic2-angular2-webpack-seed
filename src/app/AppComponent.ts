@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { StatusBar, Splashscreen} from 'ionic-native';
 
 import { HomeComponent } from './home';
 
@@ -14,6 +14,7 @@ export class AppComponent {
   constructor(platform: Platform) {
     platform.ready().then(() => {
       StatusBar.styleDefault();
+      Splashscreen.hide();
     });
   }
 }

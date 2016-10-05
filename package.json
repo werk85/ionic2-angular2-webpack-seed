@@ -4,8 +4,9 @@
   "description": "Starter project for ionic2 applications",
   "main": "index.js",
   "scripts": {
+    "resources": "node scripts/resources.js",
     "ngc": "rimraf .aot/* && ngc -p tsconfig.ngc.json",
-    "start": "webpack-dev-server --progress --inline",
+    "start": "webpack-dev-server --progress --inline --content-base=src",
     "start:prod": "NODE_ENV=production webpack-dev-server --progress",
     "build": "rimraf www/* && webpack --progress",
     "build:prod": "rimraf www/* && npm run ngc && NODE_ENV=production webpack --progress",
@@ -30,6 +31,7 @@
     "file-loader": "0.9.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "2.22.0",
+    "ionic-app-lib": "^2.0.0",
     "mkdirp": "^0.5.1",
     "node-sass": "3.10.0",
     "resolve-url-loader": "1.6.0",
