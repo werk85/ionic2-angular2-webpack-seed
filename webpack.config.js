@@ -8,7 +8,7 @@ const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const main = isProduction ? 'main.prod.ts' : 'main.ts';
+const main = isProduction ? 'main.prod.ts' : 'main.dev.ts';
 
 const paths = {
   src: path.resolve(__dirname, 'src'),
@@ -32,7 +32,7 @@ const output = {
 
 const plugins = [
   new ForkCheckerPlugin(),
-  new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/, __dirname),
+  new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/),
   new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'] }),
   new HtmlWebpackPlugin({ template: path.resolve(paths.src, 'index.html'), chunksSortMode: 'dependency' }),
   new webpack.LoaderOptionsPlugin({
@@ -79,7 +79,7 @@ const loaders = [
 ];
 
 module.exports = {
-  devtool: isProduction ? 'eval' : 'source-map',
+  devtool: isProduction ? 'cheap-source-map' : 'source-map',
   entry,
   output,
   resolve: {
@@ -90,15 +90,8 @@ module.exports = {
   plugins,
   devServer: {
     stats: 'minimal',
-    historyApiFallback: true,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000
-    },
-
     setup: function (app) {
-      // Setting up some static routes to use cordova browser platform files
-      app.use('/res', express.static(path.join(__dirname, 'res')));
+      app.use('/', express.static(path.join(__dirname, 'res')));
       app.use(express.static(path.join(__dirname, 'platforms/browser/platform_www')));
       app.get('/config.xml', (req, res) => res.sendFile(path.join(__dirname, '/config.xml')));
     },

@@ -42,7 +42,7 @@
     <allow-intent href="itms-apps:*"/>
   </platform>
   <platform name="browser">
-    <preference name="SplashScreen" value="res/android/splash/drawable-port-xhdpi-screen.png"/>
+    <preference name="SplashScreen" value="android/splash/drawable-port-xhdpi-screen.png"/>
     <preference name="SplashScreenWidth" value="412"/>
     <preference name="SplashScreenHeight" value="732"/>
   </platform>
