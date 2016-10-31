@@ -4,6 +4,8 @@
   "description": "Starter project for ionic2 applications",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf platforms && rimraf plugins && rimraf www && rimraf node_modules",
+    "init": "cordova platform add browser && cordova platform add android",
     "resources": "node scripts/resources.js",
     "start": "webpack-dev-server --progress --inline --content-base=src",
     "start:prod": "NODE_ENV=production webpack-dev-server --progress",
